@@ -12,12 +12,16 @@ from datetime import datetime
 def download(posts, num, user, folder):
     inter = False
     counter = 0
+    formats = ('.jpg', '.png', '.gif', '.gifv')
     try:
         for submission in tqdm(posts, total=num):
             if not submission.stickied:
-                if submission.url.endswith('.jpg') or submission.url.endswith('.png'):
+                if submission.url.endswith(formats):
                     index = submission.url.rfind('/')
                     url = submission.url[index + 1:]
+                    if submission.url.endswith('.gifv'):
+                        submission.url = submission.url.replace('.gifv', '.mp4')
+                        url = url.replace('.gifv', '.mp4')
                     try:
                         urllib.request.urlretrieve(submission.url, url)
                     except:
