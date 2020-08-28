@@ -21,3 +21,8 @@ py main.py [-u] [-h] [location] [category] [posts] [directory]
 | category | Sort category for posts (hot, new, top) |
 | posts | Number of posts to download |
 | directory | Directory to download images to. If no directory provided, will default to cwd. If error in directory, defaults to cwd. Directory must be enclosed in single quotes|
+
+**Example usage**
+```bash
+py main.py wallpapers top 20
+```
