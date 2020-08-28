@@ -13,13 +13,6 @@ pip install requirements.txt
 ```bash
 py main.py [-u] [-h] [location] [category] [posts] [directory]
 ```
--h: Shows help text
--u: Denotes user reddit profile
-location: User or subreddit location
-category: Sort category for posts (hot, new, top)
-posts: Number of posts to download
-directory: Directory to download images to. If no directory provided, will default to cwd. If error in directory, defaults to cwd.
-
 | Option | Description |
 | --- | --- |
 | -h | Shows help text |
