@@ -11,5 +11,5 @@ pip install requirements.txt
 ## Usage
 
 ```bash
-py main.py ()
+py main.py `[-u]` `[location]` `[category]` `[# posts]` `[directory]`
 ```
