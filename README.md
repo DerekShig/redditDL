@@ -8,3 +8,8 @@ This script requires python 3+ to function. Modules used are [praw](https://gith
 ```bash
 pip install requirements.txt
 ```
+## Usage
+
+```bash
+py main.py ()
+```
