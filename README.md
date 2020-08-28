@@ -25,4 +25,5 @@ py main.py [-u] [-h] [location] [category] [posts] [directory]
 **Example usage**
 ```bash
 py main.py wallpapers top 20
+py main.py -u spez new 50 `C:\Users\Derek\Documents`
 ```
