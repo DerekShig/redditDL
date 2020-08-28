@@ -13,3 +13,4 @@ pip install requirements.txt
 ```bash
 py main.py [-u] [location] [category] [posts] [directory]
 ```
+-u: signifies
