@@ -88,9 +88,7 @@ def main():
     parser.add_argument('posts', type=int, help='Number of posts to download')
     parser.add_argument('directory', nargs='?', default='.', help='Directory location')
     args = parser.parse_args()
-    reddit = praw.Reddit(client_id='jGtoIPjsL-AlXQ',
-                         client_secret='20W5ifxF7ZWSyPEIFxdaZZbUWH4',
-                         user_agent='pc:jGtoIPjsL-AlXQ:0.1 (by /u/killer_catzilla')
+    reddit = praw.Reddit('redditDL')
     posts = get_posts(reddit, args.user, args.location, args.category, args.posts)
     folder = create_folder(args.user, args.location, args.directory)
     download(posts, args.posts, args.user, folder)
