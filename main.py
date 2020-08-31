@@ -10,7 +10,7 @@ from datetime import datetime
 # program usage: py main.py [-u] [user/subreddit] [sort category] [# posts] ['directory']
 
 
-def download(posts, num, user, folder):
+def download(posts, num, folder):
     inter = False
     try:
         for submission in tqdm(posts, total=num):
@@ -101,7 +101,7 @@ def main():
     posts = get_posts(reddit, args.user, args.location, args.category)
     valid_links = validate(posts, args.posts)
     folder = create_folder(args.user, args.location, args.directory)
-    download(valid_links, args.posts, args.user, folder)
+    download(valid_links, args.posts, folder)
     os.chdir(owd)
 
 
