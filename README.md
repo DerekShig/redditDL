@@ -10,7 +10,7 @@ pip install requirements.txt
 ```
 
 To use the script you need to have a reddit account as well as a developer application set up. First login to your reddit account, then go [here](https://www.reddit.com/prefs/apps/). Click create app, give it a name and fill in the redirect uri with http://localhost:8080 or another of your choice. In main.py, 
-fill in the client id, secret and user agent with your information (see [here]()).
+fill in the client id, secret and user agent with your information (see [here](https://raw.githubusercontent.com/DerekShig/redditDL/master/setup.png)).
 ## Usage
 
 ```bash
