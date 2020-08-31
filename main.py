@@ -1,5 +1,6 @@
 import praw
 import urllib.request
+import requests
 import os
 import sys
 from tqdm import tqdm
@@ -11,37 +12,27 @@ from datetime import datetime
 
 def download(posts, num, user, folder):
     inter = False
-    counter = 0
-    formats = ('.jpg', '.png', '.gif', '.gifv')
     try:
         for submission in tqdm(posts, total=num):
-            if not submission.stickied:
-                if submission.url.endswith(formats):
-                    index = submission.url.rfind('/')
-                    url = submission.url[index + 1:]
-                    if submission.url.endswith('.gifv'):
-                        submission.url = submission.url.replace('.gifv', '.mp4')
-                        url = url.replace('.gifv', '.mp4')
-                    try:
-                        urllib.request.urlretrieve(submission.url, url)
-                    except:
-                        print('Malfunction downloading image. Process aborted.')
-                        print('Specified ' + str(num) + ' posts, ' + str(counter) + ' downloaded.')
-                        inter = True
-                        sys.exit()
-                    else:
-                        counter += 1
-        print('Specified ' + str(num) + ' posts, ' + str(counter) + ' downloaded.')
+            index = submission.rfind('/')
+            url = submission[index + 1:]
+            if submission.endswith('.gifv'):
+                submission = submission.replace('.gifv', '.mp4')
+                url = url.replace('.gifv', '.mp4')
+            try:
+                urllib.request.urlretrieve(submission, url)
+            except:
+                print('Malfunction downloading image. Process aborted.')
+                inter = True
+                sys.exit()
+    except KeyboardInterrupt:
+        print('Program terminated')
+        sys.exit()
     except:
         if inter:
             sys.exit()
-        else:
-            if user:
-                print('User does not exist')
-            else:
-                print('Subreddit does not exist')
-            os.chdir('..')
-            os.rmdir(folder)
+        os.chdir('..')
+        os.rmdir(folder)
 
 
 def create_folder(user, location, directory):
@@ -61,23 +52,41 @@ def create_folder(user, location, directory):
     return path
 
 
-def get_posts(reddit, user, location, category, posts):
+def get_posts(reddit, user, location, category):
     if user:
         if category == 'hot':
-            post = reddit.redditor(str(location)).submissions.hot(limit=int(posts))
+            post = reddit.redditor(str(location)).submissions.hot(limit=1000)
         elif category == 'new':
-            post = reddit.redditor(str(location)).submissions.new(limit=int(posts))
+            post = reddit.redditor(str(location)).submissions.new(limit=1000)
         else:
-            post = reddit.redditor(str(location)).submissions.top(limit=int(posts))
+            post = reddit.redditor(str(location)).submissions.top(limit=1000)
     else:
         if category == 'hot':
-            post = reddit.subreddit(str(location)).hot(limit=int(posts))
+            post = reddit.subreddit(str(location)).hot(limit=1000)
         elif category == 'new':
-            post = reddit.subreddit(str(location)).new(limit=int(posts))
+            post = reddit.subreddit(str(location)).new(limit=1000)
         else:
-            post = reddit.subreddit(str(location)).top(limit=int(posts))
+            post = reddit.subreddit(str(location)).top(limit=1000)
     return post
 
+def validate(posts, num_posts):
+    formats = ('.jpg', '.png', '.gif', '.gifv')
+    sites = []
+    cnt = 0
+    try:
+        for post in posts:
+            if cnt == int(num_posts):
+                break
+            if post.url.endswith(formats):
+                sites.append(post.url)
+                cnt += 1
+    except KeyboardInterrupt:
+        print('Program Terminated')
+        sys.exit()
+    except:
+        print('User/Subreddit does not exist')
+        sys.exit()
+    return sites
 
 def main():
     owd = os.getcwd()
@@ -89,9 +98,10 @@ def main():
     parser.add_argument('directory', nargs='?', default='.', help='Directory location')
     args = parser.parse_args()
     reddit = praw.Reddit('redditDL')
-    posts = get_posts(reddit, args.user, args.location, args.category, args.posts)
+    posts = get_posts(reddit, args.user, args.location, args.category)
+    valid_links = validate(posts, args.posts)
     folder = create_folder(args.user, args.location, args.directory)
-    download(posts, args.posts, args.user, folder)
+    download(valid_links, args.posts, args.user, folder)
     os.chdir(owd)
 
 
