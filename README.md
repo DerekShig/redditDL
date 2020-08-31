@@ -8,6 +8,9 @@ This script requires python 3+ to function. Modules used are [praw](https://gith
 ```bash
 pip install requirements.txt
 ```
+
+To use the script you need to have a reddit account as well as a developer application set up. First login to your reddit account, then go [here](https://www.reddit.com/prefs/apps/)
+
 ## Usage
 
 ```bash
